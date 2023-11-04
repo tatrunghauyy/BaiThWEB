@@ -1,0 +1,91 @@
+﻿@model IEnumerable<SachOnline.Models.SACH>
+
+<hr>
+<h2 class="text-center">SÁCH BÁN NHIỀU NHẤT</h2>
+<hr>
+
+<div class="book-slider-container">
+    <button class="slider-button prev-button" id="prevButton"><i class="fa-solid fa-chevron-left"></i></button>
+    <button class="slider-button next-button" id="nextButton"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="book-slider">
+        @foreach (var sach in Model)
+        {
+            <div class="book-slide">
+                <div class="thumbnail">
+                    <img src="~/Images/@sach.AnhBia" alt="Thumbnail Image 1" class="img-responsive img-rounded imgbook size">
+                    <div class="caption">
+                        <h4 class="ten">
+                            <a href="@Url.Action("ChiTietSach", "SachOnline", new { id = sach.MaSach })">@sach.TenSach</a>
+                        </h4>
+                        <p>
+                            <a href="@Url.Action("ThemGioHang","GioHang", new { ms = sach.MaSach, url = Request.Url.ToString() })" class="btn btn-primary" role="button">
+                                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>Add to Cart
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<style>
+    .book-slider-container {
+        overflow: hidden;
+        position: center;
+        width: 100%;
+    }
+
+    .book-slider {
+        display: flex;
+        overflow-x: hidden;
+        scroll-behavior: unset;
+    }
+
+    .book-slide {
+        flex: 0 0 33.3333%; /* Chia 3 cột cho mỗi slide */
+        padding: 10px;
+        /* Thêm kiểu dáng và khoảng cách cho từng cuốn sách */
+    }
+
+    .prev-button,
+    .next-button {
+        background-color: #fff;
+        color: #000000;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .prev-button {
+        float: left;
+    }
+
+    .next-button {
+        float: right;
+    }
+
+    .slider-button {
+        height: 540px;
+    }
+
+    .caption {
+        text-align: center;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var slider = $(".book-slider");
+        var slideWidth = $(".book-slide").outerWidth();
+        var scrollAmount = slideWidth * 1; // Di chuyển 1 cuốn sách mỗi lần
+
+        $("#nextButton").click(function () {
+            slider.animate({ scrollLeft: "+=" + scrollAmount }, 500);
+        });
+
+        $("#prevButton").click(function () {
+            slider.animate({ scrollLeft: "-=" + scrollAmount }, 500);
+        });
+    });
+</script>
+
